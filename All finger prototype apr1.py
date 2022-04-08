@@ -1,3 +1,4 @@
+from turtle import distance
 import hand_track_class
 import math
 import socket
@@ -19,14 +20,17 @@ while True:
         pinky_coord = (tracker_object.pinky_tip.x, tracker_object.pinky_tip.y)
         thumb_coord = (tracker_object.thumb_tip.x, tracker_object.thumb_tip.y)
         ring_mcp_coord = (tracker_object.ring_mcp.x, tracker_object.ring_mcp.y)
+        index_mcp_coord = (tracker_object.index_mcp.x, tracker_object.index_mcp.y)
         wristList = (tracker_object.wrist.x, tracker_object.wrist.y)
-        index_distance = math.dist(index_coord, wristList)/0.7 *180
+        index_distance = math.dist(index_coord, wristList)
         middle_distance = math.dist(middle_coord, wristList)/0.7 *180
         ring_distance = math.dist(ring_coord, wristList)/0.7 *180
         pinky_distance = math.dist(pinky_coord, wristList)/0.6 *180
         thumb_distance = math.dist(thumb_coord, ring_mcp_coord)/0.5 *180
+        horizontal_distance = math.dist(ring_mcp_coord, index_mcp_coord)
+        vertical_distance = math.dist(wristList, ring_mcp_coord)
         distance_touple= [index_distance, middle_distance, ring_distance, pinky_distance, thumb_distance]
-
+        
         for i in range(5):
             if distance_touple[i] > 180:
                 distance_touple[i] = 180
@@ -34,19 +38,18 @@ while True:
         
 
         # print(distance)
+        print(index_distance/vertical_distance)
         # # SENDING UPD MESSAGE
         MESSAGE = "{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}".format(distance_touple[0],distance_touple[1], distance_touple[2], distance_touple[3], distance_touple[4])
 
         UDP_IP = "192.168.48.216"
         UDP_PORT = 4210
 
-        print ("UDP target IP:", UDP_IP)
-        print ("UDP target port:", UDP_PORT)
-        print ("message:", MESSAGE)
+       # print ("UDP target IP:", UDP_IP)
+       # print ("UDP target port:", UDP_PORT)
+       # print ("message:", MESSAGE)
 
         sock = socket.socket(socket.AF_INET, # Internet
                     socket.SOCK_DGRAM) # UDP
 
         sock.sendto(bytes(MESSAGE, "utf-8"), (UDP_IP, UDP_PORT))
-
-
