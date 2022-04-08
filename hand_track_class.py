@@ -1,6 +1,7 @@
 
 
 
+
 import cv2 # pip install opencv-python
 import mediapipe as mp # pip install mediapipe
 import threading
@@ -20,12 +21,14 @@ class Hand_track:
         self.thumb_tip = None
         self.ring_mcp = None
         self.wrist = None
+        self.index_mcp = None
         self.is_pinch = False
         self.click_sensitivity = 0.05    #Sensitivity of the check_if_click function. Higher value -> more sensitive -> easier to click
         self.hand_on_img = False
         self.img_state = 0                # 0 is off, 1 is on, 2 is closing window
         self.stop_thread = False
         self.img_with_hand = None
+        
 
     def start(self):
         def loop():
@@ -51,6 +54,7 @@ class Hand_track:
                         self.thumb_tip = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.THUMB_TIP]
                         self.ring_mcp = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.RING_FINGER_MCP]
                         self.wrist = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.WRIST]
+                        self.index_mcp = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]
                         self.check_if_pinch()
                     else: self.hand_on_img = False
                     
