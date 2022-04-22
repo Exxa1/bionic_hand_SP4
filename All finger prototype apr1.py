@@ -36,9 +36,13 @@ while True:
                 distance_touple[i] = 180
             distance_touple[i] = int(distance_touple[i])
         
+# FINDING MAX AND MIN VALUES
+        while True:
+            tempmax = 0
+            if (index_distance/vertical_distance) > tempmax:
+                tempmax = index_distance/vertical_distance
+            print(tempmax)
 
-        # print(distance)
-        print(index_distance/vertical_distance)
         # # SENDING UPD MESSAGE
         MESSAGE = "{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}".format(distance_touple[0],distance_touple[1], distance_touple[2], distance_touple[3], distance_touple[4])
 
