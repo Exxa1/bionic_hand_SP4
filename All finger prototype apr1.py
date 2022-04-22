@@ -11,7 +11,7 @@ tracker_object.start()
 
 tracker_object.img_on()
 
-tempmax = 100000
+tempmax = 0
 while True:
 
     if tracker_object.hand_on_img: #TO SEE THESE PRINTED MAKE SURE YOUR HAND IS VISIBLE
@@ -33,7 +33,7 @@ while True:
         distance_touple= [index_distance, middle_distance, ring_distance, pinky_distance, thumb_distance]
         
         # FINDING MAX AND MIN VALUES
-        if (pinky_distance/vertical_distance) < tempmax:
+        if (pinky_distance/vertical_distance) > tempmax:
             tempmax = pinky_distance/vertical_distance
         print(tempmax)
 
