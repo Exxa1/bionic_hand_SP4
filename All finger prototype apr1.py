@@ -23,41 +23,35 @@ while True:
         ring_mcp_coord = (tracker_object.ring_mcp.x, tracker_object.ring_mcp.y)
         index_mcp_coord = (tracker_object.index_mcp.x, tracker_object.index_mcp.y)
         wristList = (tracker_object.wrist.x, tracker_object.wrist.y)
-        index_distance = math.dist(index_coord, wristList)
-        middle_distance = math.dist(middle_coord, wristList)
-        ring_distance = math.dist(ring_coord, wristList)
-        pinky_distance = math.dist(pinky_coord, wristList)
-        thumb_distance = math.dist(thumb_coord, ring_mcp_coord)
         horizontal_distance = math.dist(ring_mcp_coord, index_mcp_coord)
         vertical_distance = math.dist(wristList, ring_mcp_coord)
+        index_distance = (math.dist(index_coord, wristList)/vertical_distance - 0.6) / (2-0.6)
+        middle_distance = (math.dist(middle_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
+        ring_distance = (math.dist(ring_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
+        pinky_distance = (math.dist(pinky_coord, wristList)/vertical_distance - 0.6) / (1.5 - 0.6)
+        thumb_distance = (math.dist(thumb_coord, ring_mcp_coord)/horizontal_distance - 0.4) / (2.95 - 0.4)
         distance_touple= [index_distance, middle_distance, ring_distance, pinky_distance, thumb_distance]
-        
-        # FINDING MAX AND MIN VALUES
-        if (pinky_distance/vertical_distance) < tempmax:
-            tempmax = pinky_distance/vertical_distance
-        print(tempmax)
 
-        # for i in range(5):
-        #     if distance_touple[i] > 180:
-        #         distance_touple[i] = 180
-        #     distance_touple[i] = int(distance_touple[i])
-        
 
-        # while True:
-        #     tempmax = 0
-        #     if (ring_distance/vertical_distance) > tempmax:
-        #         tempmax = index_distance/vertical_distance
-        #     print(tempmax)
+
+        for i in range(5):
+            distance_touple[i] = distance_touple[i]*180
+            if distance_touple[i] > 180:
+                distance_touple[i] = 180
+            elif distance_touple[i] < 0:
+                distance_touple[i] = 0
+            distance_touple[i] = int(distance_touple[i])
+        
 
         # # SENDING UPD MESSAGE
-    #     MESSAGE = "{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}".format(distance_touple[0],distance_touple[1], distance_touple[2], distance_touple[3], distance_touple[4])
+        MESSAGE = "{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}:{:0>3d}".format(distance_touple[0],distance_touple[1], distance_touple[2], distance_touple[3], distance_touple[4])
 
     #     UDP_IP = "192.168.48.216"
     #     UDP_PORT = 4210
 
     #    # print ("UDP target IP:", UDP_IP)
     #    # print ("UDP target port:", UDP_PORT)
-    #    # print ("message:", MESSAGE)
+        print ("message:", MESSAGE)
 
     #     sock = socket.socket(socket.AF_INET, # Internet
     #                 socket.SOCK_DGRAM) # UDP
