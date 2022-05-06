@@ -11,7 +11,6 @@ tracker_object.start()
 
 tracker_object.img_on()
 
-tempmax = 100000
 while True:
 
     if tracker_object.hand_on_img: #TO SEE THESE PRINTED MAKE SURE YOUR HAND IS VISIBLE
@@ -25,11 +24,11 @@ while True:
         wristList = (tracker_object.wrist.x, tracker_object.wrist.y)
         horizontal_distance = math.dist(ring_mcp_coord, index_mcp_coord)
         vertical_distance = math.dist(wristList, ring_mcp_coord)
-        index_distance = (math.dist(index_coord, wristList)/vertical_distance - 0.6) / (2-0.6)
+        index_distance = (math.dist(index_coord, wristList)/vertical_distance - 0.7) / (1.9-0.7)
         middle_distance = (math.dist(middle_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
         ring_distance = (math.dist(ring_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
         pinky_distance = (math.dist(pinky_coord, wristList)/vertical_distance - 0.6) / (1.5 - 0.6)
-        thumb_distance = (math.dist(thumb_coord, ring_mcp_coord)/horizontal_distance - 0.4) / (2.95 - 0.4)
+        thumb_distance = (math.dist(thumb_coord, ring_mcp_coord)/horizontal_distance - 0.6) / (2.8 - 0.6)
         distance_touple= [index_distance, middle_distance, ring_distance, pinky_distance, thumb_distance]
 
 
