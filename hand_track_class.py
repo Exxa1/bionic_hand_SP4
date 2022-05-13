@@ -71,13 +71,15 @@ class Hand_track:
                                     mp_drawing_styles.get_default_hand_landmarks_style(),
                                     mp_drawing_styles.get_default_hand_connections_style())
                         # Flip the image horizontally for a selfie-view display.
+                        image = cv2.flip(image, 1)
+                        
+                        #Text on image
                         font                   = cv2.FONT_HERSHEY_SIMPLEX
                         bottomLeftCornerOfText = (50,50)
                         fontScale              = 1
                         fontColor              = (255,255,255)
                         thickness              = 1
                         lineType               = 2 
-
                         cv2.putText(image,'Hello World!',  
                             bottomLeftCornerOfText, 
                             font, 
@@ -86,8 +88,9 @@ class Hand_track:
                             thickness,
                             lineType)
 
+                        #Displaying image
                         cv2.imshow('MediaPipe Hands', image)
-
+                        
                         self.img_with_hand = image
                         if cv2.waitKey(5) & 0xFF == 27:
                             break
