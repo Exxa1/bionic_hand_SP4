@@ -28,6 +28,8 @@ class Hand_track:
         self.img_state = 0                # 0 is off, 1 is on, 2 is closing window
         self.stop_thread = False
         self.img_with_hand = None
+        self.text_on_img = False
+        self.text = "Hello World!"
         
 
     def start(self):
@@ -74,23 +76,24 @@ class Hand_track:
                         image = cv2.flip(image, 1)
                         
                         #Text on image
-                        font                   = cv2.FONT_HERSHEY_SIMPLEX
-                        bottomLeftCornerOfText = (50,50)
-                        fontScale              = 1
-                        fontColor              = (255,255,255)
-                        thickness              = 1
-                        lineType               = 2 
-                        cv2.putText(image,'Hello World!',  
-                            bottomLeftCornerOfText, 
-                            font, 
-                            fontScale,
-                            fontColor,
-                            thickness,
-                            lineType)
+                        if self.text_on_img:
+                            font                   = cv2.FONT_HERSHEY_SIMPLEX
+                            bottomLeftCornerOfText = (100,100)
+                            fontScale              = 1
+                            fontColor              = (0,0,255)
+                            thickness              = 3
+                            lineType               = 2 
+                            cv2.putText(image, self.text,  
+                                bottomLeftCornerOfText, 
+                                font, 
+                                fontScale,
+                                fontColor,
+                                thickness,
+                                lineType)
 
                         #Displaying image
                         cv2.imshow('MediaPipe Hands', image)
-                        
+
                         self.img_with_hand = image
                         if cv2.waitKey(5) & 0xFF == 27:
                             break
@@ -113,6 +116,13 @@ class Hand_track:
             self.img_state = 1
     def img_off(self):
             self.img_state = 2
+
+    def set_text(self, text_to):
+        self.text = text_to
+    def text_on(self):
+        self.text_on_img = True
+    def text_off(self):
+        self.text_on_img = False
 
     def check_if_pinch(self):
         if abs(self.index_tip.x - self.thumb_tip.x) < self.click_sensitivity and abs(self.index_tip.y - self.thumb_tip.y) < self.click_sensitivity and abs(self.index_tip.z - self.thumb_tip.z) < self.click_sensitivity:
