@@ -25,14 +25,14 @@ while True:
         thumb_coord = (tracker_object.thumb_tip.x, tracker_object.thumb_tip.y)
         ring_mcp_coord = (tracker_object.ring_mcp.x, tracker_object.ring_mcp.y)
         index_mcp_coord = (tracker_object.index_mcp.x, tracker_object.index_mcp.y)
-        wristList = (tracker_object.wrist.x, tracker_object.wrist.y)
+        wrist_coord = (tracker_object.wrist.x, tracker_object.wrist.y)
         # Calculating distances
         horizontal_distance = math.dist(ring_mcp_coord, index_mcp_coord)
-        vertical_distance = math.dist(wristList, ring_mcp_coord)
-        index_distance = (math.dist(index_coord, wristList)/vertical_distance - 0.7) / (1.9-0.7)
-        middle_distance = (math.dist(middle_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
-        ring_distance = (math.dist(ring_coord, wristList)/vertical_distance - 0.6) / (2 - 0.6)
-        pinky_distance = (math.dist(pinky_coord, wristList)/vertical_distance - 0.6) / (1.5 - 0.6)
+        vertical_distance = math.dist(wrist_coord, ring_mcp_coord)
+        index_distance = (math.dist(index_coord, wrist_coord)/vertical_distance - 0.7) / (1.9-0.7)
+        middle_distance = (math.dist(middle_coord, wrist_coord)/vertical_distance - 0.6) / (2 - 0.6)
+        ring_distance = (math.dist(ring_coord, wrist_coord)/vertical_distance - 0.6) / (2 - 0.6)
+        pinky_distance = (math.dist(pinky_coord, wrist_coord)/vertical_distance - 0.6) / (1.5 - 0.6)
         thumb_distance = (math.dist(thumb_coord, ring_mcp_coord)/horizontal_distance - 0.6) / (2.8 - 0.6)
         # Placing distances in a list
         distance_list= [index_distance, middle_distance, ring_distance, pinky_distance, thumb_distance]

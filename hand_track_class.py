@@ -22,19 +22,19 @@ class Hand_track:
         self.ring_mcp = None
         self.wrist = None
         self.index_mcp = None
-        self.is_pinch = False
-        self.click_sensitivity = 0.05    #Sensitivity of the check_if_click function. Higher value -> more sensitive -> easier to click
+        self.text = "Hello World!"
+
         self.hand_on_img = False
         self.img_state = 0                # 0 is off, 1 is on, 2 is closing window
         self.stop_thread = False
-        self.img_with_hand = None
         self.text_on_img = False
-        self.text = "Hello World!"
         
 
     def start(self):
         def loop():
             with mp_hands.Hands(
+                static_image_mode=False,
+                max_num_hands=1,
                 model_complexity=0,
                 min_detection_confidence=0.5,
                 min_tracking_confidence=0.5) as hands:
@@ -57,7 +57,6 @@ class Hand_track:
                         self.ring_mcp = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.RING_FINGER_MCP]
                         self.wrist = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.WRIST]
                         self.index_mcp = results.multi_hand_landmarks[0].landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]
-                        self.check_if_pinch()
                     else: self.hand_on_img = False
                     
                     if self.img_state == 1:
@@ -94,7 +93,6 @@ class Hand_track:
                         #Displaying image
                         cv2.imshow('MediaPipe Hands', image)
 
-                        self.img_with_hand = image
                         if cv2.waitKey(5) & 0xFF == 27:
                             break
                     elif self.img_state == 2:                                     #Close the window then set showImg to 0 (off)
@@ -123,33 +121,3 @@ class Hand_track:
         self.text_on_img = True
     def text_off(self):
         self.text_on_img = False
-
-    def check_if_pinch(self):
-        if abs(self.index_tip.x - self.thumb_tip.x) < self.click_sensitivity and abs(self.index_tip.y - self.thumb_tip.y) < self.click_sensitivity and abs(self.index_tip.z - self.thumb_tip.z) < self.click_sensitivity:
-            self.is_pinch = True
-        else:
-            self.is_pinch = False
-    
-    
-
-    #NOT YET EXPLAINED IN HOW TO USE
-    def is_inside_box(self, box_x0, box_y0, box_x1, box_y1):
-        if self.window_width == None:
-            raise Exception("Set widow size with the set_window_size(self, width, height) method")
-        else:
-            index_x = (1-self.index_tip.x)*self.window_width
-            index_y = self.index_tip.y*self.window_width
-            within_box = index_x > box_x0 and index_x < box_x1 and index_y > box_y0 and index_y < box_y1
-            return within_box
-        
-    def set_window_size(self, width, height):
-        self.window_width = width
-        self.window_height = height
-    
-    def get_relative_index_pos(self):
-        if self.window_width != None:
-            index_x = (1-self.index_tip.x)*self.window_width
-            index_y = self.index_tip.y*self.window_width
-            return index_x, index_y
-        else:
-            raise Exception("Set widow size with the set_window_size(self, width, height) method")
