@@ -1,6 +1,16 @@
+"""
+Subject module project in Computer Science
+Semester: F2022
+Authors: Azita Sofie Tadayoni, 68888
+Emma Kathrine Derby Hansen, 71433
+Alexander Kiellerup Swystun 72048
+Áron Kuna 70492
 
-
-
+This code is inspired by the
+Interactive Digital Systems exam turn in assignment from 2021 autumn semester by Aron Kuna
+Exam code: U25233
+Github page of the code used: https://github.com/esbendg/IDS-HandIn/blob/master/hand_track_class.py
+"""
 
 import cv2 # pip install opencv-python
 import mediapipe as mp # pip install mediapipe
@@ -13,21 +23,31 @@ class Hand_track:
 
     #Initialize object
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        self.hand_on_img = False
+
+        self.thumb_tip = None
         self.index_tip = None
         self.middle_tip = None
         self.ring_tip = None
         self.pinky_tip = None
-        self.thumb_tip = None
         self.ring_mcp = None
-        self.wrist = None
         self.index_mcp = None
-        self.text = "Hello World!"
+        self.wrist = None
 
-        self.hand_on_img = False
+        self.text_on_img = False
+        self.text = None
+        self.text_style = {
+            "font"                   : cv2.FONT_HERSHEY_SIMPLEX,
+            "bottom_left_corner" : (100,100),
+            "font_scale"              : 1,
+            "font_color"              : (0,0,255),
+            "thickness"              : 3,
+            "line_type"               : 2
+        }
+
+        self.cap = cv2.VideoCapture(0)
         self.img_state = 0                # 0 is off, 1 is on, 2 is closing window
         self.stop_thread = False
-        self.text_on_img = False
         
 
     def start(self):
@@ -75,26 +95,19 @@ class Hand_track:
                         image = cv2.flip(image, 1)
                         
                         #Text on image
-                        if self.text_on_img:
-                            font                   = cv2.FONT_HERSHEY_SIMPLEX
-                            bottomLeftCornerOfText = (100,100)
-                            fontScale              = 1
-                            fontColor              = (0,0,255)
-                            thickness              = 3
-                            lineType               = 2 
+                        if self.text_on_img: 
                             cv2.putText(image, self.text,  
-                                bottomLeftCornerOfText, 
-                                font, 
-                                fontScale,
-                                fontColor,
-                                thickness,
-                                lineType)
+                                self.text_style["bottom_left_corner"], 
+                                self.text_style["font"], 
+                                self.text_style["font_scale"],
+                                self.text_style["font_color"],
+                                self.text_style["thickness"],
+                                self.text_style["line_type"])
 
                         #Displaying image
                         cv2.imshow('MediaPipe Hands', image)
+                        (cv2.waitKey(5) & 0xFF == 27) # This line is neccessary for the image to show up
 
-                        if cv2.waitKey(5) & 0xFF == 27:
-                            break
                     elif self.img_state == 2:                                     #Close the window then set showImg to 0 (off)
                             try:
                                 cv2.destroyWindow('MediaPipe Hands')
@@ -102,6 +115,7 @@ class Hand_track:
                             self.img_state = 0
                     if self.stop_thread:
                         break
+
         self.thread = threading.Thread(target = loop)
         self.thread.start()
 
