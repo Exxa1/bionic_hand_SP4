@@ -1,0 +1,16 @@
+Collection of required libraries for the program to run correctly.
+
+Python
+    required pip libraries:
+        - socket
+        - time
+        - math
+        - cv2 (opencv-python)
+        - mediapipe
+        - threading
+        - keyboard
+
+ESP 32
+    required Arduino libraries:
+        - ESP32Servo.h
+        - WiFi.h
