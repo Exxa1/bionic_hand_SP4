@@ -171,24 +171,5 @@ void loop() {
     udp.endPacket();
 
   }
-
-  /*if (millis() - timer > 10000) // send a broadcast msg every 10 seconds
-
-  {
-
-    timer = millis();
-
-    udp.beginPacket("255.255.255.255", localUdpPort);
-
-    udp.print(broadcastPacket);
-
-    udp.endPacket();
-
-    Serial.println("Just broadcasted");
-
-
-
-  }*/
   
-
 }
