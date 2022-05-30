@@ -1,4 +1,5 @@
 """
+CALCULATE FINGER POSITIONS
 Subject module project in Computer Science
 Semester: F2022
 Authors: Azita Sofie Tadayoni, 68888
@@ -93,3 +94,6 @@ def get_positions():
         finger_distances = None
         send_message = False
     return finger_distances, send_message
+
+def stop_hand_tracker():
+    tracker_object.stop()

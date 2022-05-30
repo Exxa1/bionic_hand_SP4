@@ -1,3 +1,12 @@
+// ARDUINO CODE
+// Subject module project in Computer Science
+// Semester: F2022
+// Authors: Azita Sofie Tadayoni, 68888
+// Emma Kathrine Derby Hansen, 71433
+// Alexander Kiellerup Swystun 72048
+// Áron Kuna 70492
+
+
 // Load Wi-Fi library
 
 #include <WiFi.h>
